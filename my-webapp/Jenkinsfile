@@ -2,15 +2,15 @@ pipeline {
     agent any
 
     tools {
-    maven 'maven'
-    jdk 'jdk-21'
+    maven 'maven3.9.12'
+    jdk 'jdk21'
 }
 
 
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/SupriyaJoshi2022-github/expt4_devops.git'
+                git branch: 'main', url: 'https://github.com/morethanashley/jenkins2'
                  
             }
         }
