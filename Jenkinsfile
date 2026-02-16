@@ -16,10 +16,13 @@ pipeline {
         }
 
         stage('Build with Maven') {
-            steps {
-                bat 'mvn clean package'
-            }
+    steps {
+        dir('my-webapp') {
+            bat 'mvn clean package'
         }
+    }
+}
+
 
         stage('Deploy to Tomcat') {
             steps {
