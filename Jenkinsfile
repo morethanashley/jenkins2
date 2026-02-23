@@ -15,7 +15,9 @@ pipeline {
 
         stage('Build with Maven') {
             steps {
-                bat 'mvn clean package'
+                dir('my-webapp') {  // Change the working directory to 'my-webapp'
+                    bat 'mvn clean package'  // Run Maven command inside 'my-webapp'
+                }
             }
         }
 
@@ -29,7 +31,7 @@ pipeline {
                     )
                 ],
                 contextPath: 'my-webapp',
-                war: 'target/webapp.war'
+                war: 'my-webapp/target/webapp.war'  // Path to the WAR file in 'my-webapp/target'
             }
         }
     }
