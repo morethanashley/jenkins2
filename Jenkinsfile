@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'maven'
+        maven 'maven-3.9.12'
         jdk 'jdk-21'
     }
 
@@ -15,8 +15,8 @@ pipeline {
 
         stage('Build with Maven') {
             steps {
-                dir('my-webapp') {  // Change the working directory to 'my-webapp'
-                    bat 'mvn clean package'  // Run Maven command inside 'my-webapp'
+                dir('my-webapp') {  // Navigate into the my-webapp directory where pom.xml is located
+                    bat 'mvn clean package'  // Use 'sh' instead of 'bat' for Linux agents
                 }
             }
         }
@@ -27,11 +27,11 @@ pipeline {
                     tomcat9(
                         credentialsId: 'tomcat-creds',
                         path: '',
-                        url: 'http://localhost:8081'
+                        url: 'http://localhost:8081'  // Ensure this is the correct Tomcat Manager URL
                     )
                 ],
                 contextPath: 'my-webapp',
-                war: 'my-webapp/target/webapp.war'  // Path to the WAR file in 'my-webapp/target'
+                war: 'my-webapp/target/webapp.war'  // Correct path to WAR file inside my-webapp
             }
         }
     }
