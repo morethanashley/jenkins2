@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     tools {
-        maven 'maven'  // This matches the Maven tool name configured in Global Tool Configuration
-        jdk 'jdk-21'   // This uses the 'jdk-21' configuration you have in Global Tool Configuration
-        git 'git'       // This specifies the Git tool you configured in Global Tool Configuration
+        maven 'maven'  // Use the Maven tool name configured in Global Tool Configuration
+        jdk 'jdk-21'   // Use the 'jdk-21' configuration you have in Global Tool Configuration
+        git 'git'       // Use the Git tool you configured in Global Tool Configuration
     }
 
     stages {
@@ -18,7 +18,9 @@ pipeline {
         stage('Build with Maven') {
             steps {
                 dir('my-webapp') {
-                    bat 'mvn clean package'  // Use 'sh' instead of 'bat' for Linux
+                    // Windows users: 'bat' is correct
+                    // Linux users: replace with 'sh' like: sh 'mvn clean package'
+                    bat 'mvn clean package'  
                 }
             }
         }
@@ -27,12 +29,12 @@ pipeline {
             steps {
                 deploy adapters: [
                     tomcat9(
-                        credentialsId: 'tomcat-creds',
-                        url: 'http://localhost:8081/manager/text'  // Ensure this is the correct Tomcat Manager URL
+                        credentialsId: 'tomcat-creds', 
+                        url: 'http://localhost:8081/manager/text'  // Update URL to match your Tomcat setup
                     )
                 ],
                 contextPath: 'my-webapp',
-                war: 'my-webapp/target/webapp.war'  // Make sure the WAR file path is correct
+                war: 'my-webapp/target/webapp.war'  // Ensure the WAR file path is correct
             }
         }
     }
