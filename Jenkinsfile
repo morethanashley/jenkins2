@@ -2,12 +2,11 @@ pipeline {
     agent any
 
     tools {
-        maven 'maven3.9.12'
-        jdk 'jdk-21'
+        maven 'maven'  // Use the correct tool name based on the Maven configuration in Jenkins
+        jdk 'jdk-21'   // This is correctly set, assuming 'jdk-21' is configured
     }
 
     stages {
-
         stage('Checkout Code') {
             steps {
                 git branch: 'main', 
@@ -18,7 +17,8 @@ pipeline {
         stage('Build with Maven') {
             steps {
                 dir('my-webapp') {
-                    bat 'mvn clean package'
+                    // Running the Maven build using the 'maven' tool configured in Jenkins
+                    bat 'mvn clean package'  // 'bat' is for Windows. If using a Linux agent, replace with 'sh'
                 }
             }
         }
@@ -28,12 +28,11 @@ pipeline {
                 deploy adapters: [
                     tomcat9(
                         credentialsId: 'tomcat-creds',
-                        path: '',
-                        url: 'http://localhost:8081'
+                        url: 'http://localhost:8081/manager/text'  // Assuming this is your Tomcat Manager URL
                     )
                 ],
                 contextPath: 'my-webapp',
-                war: 'my-webapp/target/*.war'
+                war: 'my-webapp/target/webapp.war'  // Specify the exact location of the war file
             }
         }
     }
