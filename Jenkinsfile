@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/DarshanG256/devops4'
+                git branch: 'main', url: 'https://github.com/morethanashley/jenkins2'
             }
         }
 
